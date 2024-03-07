@@ -1,11 +1,8 @@
 package br.insper.ecommerce;
 
-import br.insper.ecommerce.cliente.Cliente;
 import br.insper.ecommerce.cliente.ClienteService;
-import br.insper.ecommerce.pagamento.Boleto;
-import br.insper.ecommerce.pagamento.MeioPagamento;
+import br.insper.ecommerce.produto.ProdutoService;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -20,6 +17,7 @@ public class Main {
         String opcao = "0";
 
         ClienteService clienteService = new ClienteService();
+        ProdutoService produtoService = new ProdutoService();
         while(!opcao.equalsIgnoreCase("4")) {
 
             System.out.println("""
@@ -53,13 +51,26 @@ public class Main {
                 clienteService.excluirClientes(cpf);
             }
             if (opcao.equalsIgnoreCase("4")) {
+                System.out.println("Digite o nome do produto que você quer cadastrar:");
+                String nome = scanner.nextLine();
+                System.out.println("Digite o preço do produto que você quer cadastrar ex: 100.00:");
+                double preco = Double.parseDouble(scanner.nextLine());
 
+                produtoService.cadastrarProduto(nome, preco);
             }
             if (opcao.equalsIgnoreCase("5")) {
-
+                produtoService.listarProdutos();
             }
             if (opcao.equalsIgnoreCase("6")) {
+                System.out.println("Digite o nome do produto que você quer remover:");
+                String nome = scanner.nextLine();
+                boolean removeu = produtoService.excluirProduto(nome);
 
+                if (removeu) {
+                    System.out.println("Produto removido com sucesso");
+                }else{
+                    System.out.println("Produto não encontrado");
+                }
             }
             if (opcao.equalsIgnoreCase("7")) {
 
