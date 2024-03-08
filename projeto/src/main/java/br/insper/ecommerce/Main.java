@@ -3,6 +3,7 @@ package br.insper.ecommerce;
 import br.insper.ecommerce.cliente.Cliente;
 import br.insper.ecommerce.cliente.ClienteService;
 import br.insper.ecommerce.compra.Compra;
+import br.insper.ecommerce.compra.CompraService;
 import br.insper.ecommerce.compra.Item;
 import br.insper.ecommerce.pagamento.Boleto;
 import br.insper.ecommerce.pagamento.CartaoCredito;
@@ -28,6 +29,8 @@ public class Main {
 
         ClienteService clienteService = new ClienteService();
         ProdutoService produtoService = new ProdutoService();
+        CompraService compraService = new CompraService();
+
         while(!opcao.equalsIgnoreCase("4")) {
 
             System.out.println("""
@@ -131,15 +134,14 @@ public class Main {
                 }
                 compra.setMeioPagamento(dindin);
                 compra.calculaPrecoTotal();
+                compraService.cadastrarProduto(compra);
     
             }
             if (opcao.equalsIgnoreCase("8")) {
-
+                compraService.listarProdutos();
             }
 
         }
-
-
     }
 
 }

@@ -67,5 +67,4 @@ public class Compra {
     public void setMeioPagamento(MeioPagamento meioPagamento) {
         this.meioPagamento = meioPagamento;
     }
-
 }
