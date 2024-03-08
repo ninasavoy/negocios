@@ -31,7 +31,7 @@ public class Main {
         ProdutoService produtoService = new ProdutoService();
         CompraService compraService = new CompraService();
 
-        while(!opcao.equalsIgnoreCase("4")) {
+        while(!opcao.equalsIgnoreCase("9")) {
 
             System.out.println("""
                     1 - Cadastrar Cliente
@@ -92,6 +92,11 @@ public class Main {
                 System.out.println("Digite o cpf do cliente:");
                 String cpf = scanner.nextLine();
                 Cliente cliente = clienteService.buscarCliente(cpf);
+                if (cliente == null) {
+                    System.out.println("CPF inválido. Por favor, insira um CPF válido ou cadastre o usuário");
+                    System.out.println();
+                    continue;
+                }
                 compra.setCliente(cliente);
                 LocalDateTime data = LocalDateTime.now();
                 compra.setDataCompra(data);
@@ -101,6 +106,11 @@ public class Main {
                     System.out.println("Digite o nome do produto:");
                     String nome = scanner.nextLine();
                     Produto produto = produtoService.buscarProduto(nome);
+                    if (produto == null) {
+                        System.out.println("Produto inválido. Por favor, insira um produto válido ou cadastre-o");
+                        System.out.println();
+                        continue;
+                    }
                     System.out.println("Digite a quantidade que você deseja comprar:");
                     int quantidade = scanner.nextInt();
                     Item item = new Item(quantidade, produto);
