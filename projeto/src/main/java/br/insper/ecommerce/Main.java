@@ -1,8 +1,18 @@
 package br.insper.ecommerce;
 
+import br.insper.ecommerce.cliente.Cliente;
 import br.insper.ecommerce.cliente.ClienteService;
+import br.insper.ecommerce.compra.Compra;
+import br.insper.ecommerce.compra.Item;
+import br.insper.ecommerce.pagamento.Boleto;
+import br.insper.ecommerce.pagamento.CartaoCredito;
+import br.insper.ecommerce.pagamento.CartaoDebito;
+import br.insper.ecommerce.pagamento.MeioPagamento;
+import br.insper.ecommerce.pagamento.Pix;
+import br.insper.ecommerce.produto.Produto;
 import br.insper.ecommerce.produto.ProdutoService;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -72,8 +82,56 @@ public class Main {
                     System.out.println("Produto não encontrado");
                 }
             }
-            if (opcao.equalsIgnoreCase("7")) {
 
+            if (opcao.equalsIgnoreCase("7")) {
+                Compra compra = new Compra();
+
+                System.out.println("Digite o cpf do cliente:");
+                String cpf = scanner.nextLine();
+                Cliente cliente = clienteService.buscarCliente(cpf);
+                compra.setCliente(cliente);
+                LocalDateTime data = LocalDateTime.now();
+                compra.setDataCompra(data);
+                
+                boolean ambicioso = true;
+                while (ambicioso) {
+                    System.out.println("Digite o nome do produto:");
+                    String nome = scanner.nextLine();
+                    Produto produto = produtoService.buscarProduto(nome);
+                    System.out.println("Digite a quantidade que você deseja comprar:");
+                    int quantidade = scanner.nextInt();
+                    Item item = new Item(quantidade, produto);
+                    compra.adicionarItem(item);
+                    System.out.println("Você deseja adicionar mais um item?");
+                    String resposta = scanner.nextLine();
+                    if (!resposta.toLowerCase().equals("sim")) {
+                        ambicioso = false;
+                    }
+                }
+                System.out.println("Qual será o método de pagamento");
+                System.out.println("""
+                    1 - Cartão de Crédito
+                    2 - Cartão de Débito
+                    3 - Boleto
+                    4 - Pix
+                    """);
+                String metodo = scanner.nextLine();
+                MeioPagamento dindin = null;
+                if (metodo.equalsIgnoreCase("1")) {
+                    dindin = new CartaoCredito();
+                }
+                if (metodo.equalsIgnoreCase("2")) {
+                    dindin = new CartaoDebito();
+                }
+                if (metodo.equalsIgnoreCase("3")) {
+                    dindin = new Boleto();
+                }
+                if (metodo.equalsIgnoreCase("4")) {
+                    dindin = new Pix();
+                }
+                compra.setMeioPagamento(dindin);
+                compra.calculaPrecoTotal();
+    
             }
             if (opcao.equalsIgnoreCase("8")) {
 

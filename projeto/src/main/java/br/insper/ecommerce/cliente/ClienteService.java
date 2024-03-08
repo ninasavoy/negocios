@@ -26,6 +26,15 @@ public class ClienteService {
         }
     }
 
+    public Cliente buscarCliente(String cpf) {
+        for (Cliente cliente : clientes) {
+            if (cpf.equalsIgnoreCase(cliente.getCpf())) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
     public void excluirClientes(String cpf) {
         Cliente clienteRemover = null;
         for (Cliente cliente : clientes) {
